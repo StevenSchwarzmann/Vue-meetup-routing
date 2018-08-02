@@ -1,18 +1,26 @@
 <template>
   <div class="home">
-    <img src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ul>
+      <li v-for="project in projects" :key="project.id">
+       <router-link :to="'/' + project.id">{{ project.title }} </router-link>
+       </li>
+    </ul>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
 
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
+  data: () => ({
+    projects: null
+  }),
+
+  async created() {
+    const url = `https://jsonplaceholder.typicode.com/posts/`
+    //const url = `https://api.github.com/users/sdvue/repos`
+    this.projects = await fetch(url).then(res => res.json())
   }
-}
+};
 </script>
